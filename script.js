@@ -20,7 +20,7 @@
         const scrollProgress = Math.max(0, Math.min(1, viewportY / (window.innerHeight * 0.6))); // Start revealing after 60% of viewport height scrolled
         
         titleLines.forEach((line, index) => {
-          const lineDelay = index * 0.08; // Stagger each line by 0.15
+          const lineDelay = index * 0.08; // Stagger each line by 0.08
           const lineProgress = Math.max(0, Math.min(1, (scrollProgress - lineDelay) / 0.2));
           
           if (lineProgress > 0) {
