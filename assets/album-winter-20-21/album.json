@@ -1,0 +1,35 @@
+{
+  "title": "Winter 20/21",
+  "artist": "good carver",
+  "artwork": "assets/album-winter-20-21/album-art-winter-20-21.jpg",
+  "audioPath": "assets/album-winter-20-21/",
+  "albumCredits": "Recorded on a cell phone with a couple mics and a handful of instruments during periods of quarantine in 2020, these songs explore struggles and isolation during the COVID-19 global pandemic, political demagoguery, and the ways we look to people, places, dreams, and memories as anchors. Released February 5, 2021. All songs written, performed, and mixed by Good Carver. Mastered by Ed Brooks at Resonant Mastering. © & ℗ 2021 Good Carver. All Rights Reserved.",
+  "tracks": [
+    {
+      "title": "Fate to Choose",
+      "file": "Good Carver - Winter 20-21 - 01 Fate to Choose.mp3",
+      "credits": ""
+    },
+    {
+      "title": "Length of the Line",
+      "file": "Good Carver - Winter 20-21 - 02 Length of the Line.mp3",
+      "credits": ""
+    },
+    {
+      "title": "Hearts",
+      "file": "Good Carver - Winter 20-21 - 03 Hearts.mp3",
+      "credits": ""
+    },
+    {
+      "title": "Fire Became a Flame",
+      "file": "Good Carver - Winter 20-21 - 04 Fire Became a Flame.mp3",
+      "credits": ""
+    },
+    {
+      "title": "Quotient Parts",
+      "file": "Good Carver - Winter 20-21 - 05 Quotient Parts.mp3",
+      "credits": ""
+    }
+  ]
+}
+
