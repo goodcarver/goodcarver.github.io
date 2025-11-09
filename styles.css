@@ -200,6 +200,62 @@ a:hover {
 .socials a { color: var(--text); text-decoration: none; }
 .socials a:hover { color: var(--text); }
 
+/* Donation UI */
+.donation-section {
+  margin-top: 32px;
+  padding-top: 24px;
+  border-top: 1px solid rgba(72, 79, 83, 0.25);
+  text-align: center;
+}
+
+.donation-title {
+  font-size: 18px;
+  font-style: italic;
+  font-weight: 400;
+  color: var(--heading);
+  margin: 0 0 16px;
+}
+
+.donation-links {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.donation-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 24px;
+  border-radius: 999px;
+  text-decoration: none;
+  color: var(--text);
+  background: var(--ghost);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  transition: transform 0.25s ease, background 0.25s ease;
+  font-size: 16px;
+}
+
+.donation-link:hover {
+  transform: translateY(-1px);
+  background: rgba(72, 79, 83, 0.12);
+}
+
+.donation-link i {
+  font-size: 18px;
+}
+
+.venmo-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  font-weight: 700;
+  font-size: 14px;
+}
+
 /* Parallax */
 .parallax {
   position: relative;
