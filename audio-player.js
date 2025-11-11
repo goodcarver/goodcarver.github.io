@@ -56,13 +56,6 @@
           <div class="audio-player__artwork">
             <img src="${artwork}" alt="${albumData.title}" />
           </div>
-          
-          <div class="audio-player__info">
-            <h2 class="audio-player__album-title">${albumData.title}</h2>
-            <p class="audio-player__artist">${albumData.artist || ''}</p>
-            <div class="audio-player__current-track" id="current-track-title">${albumData.tracks[0].title}</div>
-            <div class="audio-player__track-number" id="current-track-number">Track 1 of ${albumData.tracks.length}</div>
-          </div>
 
           <div class="audio-player__progress-container">
             <div class="audio-player__progress-bar" id="progress-bar">
@@ -84,6 +77,12 @@
             <button class="audio-player__control-btn" id="next-btn" aria-label="Next track">
               <i class="fas fa-forward-step" aria-hidden="true"></i>
             </button>
+          </div>
+
+          <div class="audio-player__track-info">
+            <div class="audio-player__track-info-item" id="current-track-title">${albumData.tracks[0].title}</div>
+            <div class="audio-player__track-info-item" id="current-artist">${albumData.artist || ''}</div>
+            <div class="audio-player__track-info-item" id="current-album">${albumData.title}</div>
           </div>
         </div>
 
@@ -467,14 +466,9 @@
 
     const track = albumData.tracks[currentTrackIndex];
     const trackTitleEl = document.getElementById('current-track-title');
-    const trackNumberEl = document.getElementById('current-track-number');
 
     if (trackTitleEl) {
       trackTitleEl.textContent = track.title;
-    }
-
-    if (trackNumberEl) {
-      trackNumberEl.textContent = `Track ${currentTrackIndex + 1} of ${albumData.tracks.length}`;
     }
   }
 

@@ -60,37 +60,25 @@
   }
 }
 
-.audio-player__info {
-  text-align: center;
-  margin-bottom: 24px;
+.audio-player__track-info {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 32px;
 }
 
-.audio-player__album-title {
-  font-size: clamp(20px, 3vw, 28px);
-  font-style: italic;
-  font-weight: 400;
-  color: var(--heading);
-  margin: 0 0 8px;
+@media (min-width: 768px) {
+  .audio-player__track-info {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 16px;
+  }
 }
 
-.audio-player__artist {
-  font-size: 16px;
-  color: var(--text);
-  margin: 0 0 16px;
-}
-
-.audio-player__current-track {
+.audio-player__track-info-item {
   font-size: 18px;
-  font-style: italic;
   color: var(--heading);
-  margin: 0 0 4px;
-}
-
-.audio-player__track-number {
-  font-size: 14px;
-  color: var(--text);
-  opacity: 0.8;
-  margin: 0 0 16px;
+  text-align: center;
 }
 
 .audio-player__progress-container {
@@ -137,7 +125,7 @@
   align-items: center;
   justify-content: center;
   gap: 16px;
-  margin-bottom: 32px;
+  margin-bottom: 24px;
 }
 
 .audio-player__control-btn {
@@ -368,7 +356,7 @@
     font-size: 15px;
   }
 
-  .audio-player__current-track {
+  .audio-player__track-info-item {
     font-size: 16px;
   }
 
