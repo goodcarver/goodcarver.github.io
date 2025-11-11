@@ -47,6 +47,9 @@ a:hover {
   justify-content: space-between;
   font-size: 24px; 
 }
+.nav--center {
+  justify-content: center;
+}
 .logo {
   font-weight: 400;
   font-style: italic;
