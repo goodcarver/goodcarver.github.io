@@ -10,6 +10,7 @@
 
   // Title sequence animation
   const titleLines = Array.from(document.querySelectorAll('.title-line'));
+  const releaseInfo = document.querySelector('.release-info');
   if (titleLines.length > 0) {
     let ticking = false;
     const handleTitleScroll = () => {
@@ -31,6 +32,17 @@
           }
         });
         
+        // Show release info after all title lines
+        if (releaseInfo) {
+          const releaseDelay = titleLines.length * 0.08 + 0.1; // Appear after all title lines
+          const releaseProgress = Math.max(0, Math.min(1, (scrollProgress - releaseDelay) / 0.2));
+          if (releaseProgress > 0) {
+            releaseInfo.classList.add('visible');
+          } else {
+            releaseInfo.classList.remove('visible');
+          }
+        }
+        
         ticking = false;
       });
     };
@@ -41,6 +53,7 @@
     } else {
       // If reduced motion is preferred, show all lines immediately
       titleLines.forEach(line => line.classList.add('visible'));
+      if (releaseInfo) releaseInfo.classList.add('visible');
     }
   }
 
@@ -124,6 +137,101 @@
   // Load shows when page loads
   loadShows();
 
+  // Share button functionality
+  const shareBtn = document.getElementById('share-btn');
+  if (shareBtn) {
+    shareBtn.addEventListener('click', async () => {
+      const shareData = {
+        title: 'good carver',
+        text: 'Check out good carver - Fort Collins, CO new folk.',
+        url: window.location.href
+      };
+
+      // Check if Web Share API is supported
+      if (navigator.share) {
+        try {
+          await navigator.share(shareData);
+        } catch (err) {
+          // User cancelled or error occurred
+          if (err.name !== 'AbortError') {
+            console.error('Error sharing:', err);
+            fallbackCopyToClipboard();
+          }
+        }
+      } else {
+        // Fallback: copy URL to clipboard
+        fallbackCopyToClipboard();
+      }
+    });
+  }
+
+  // Fallback function to copy URL to clipboard
+  function fallbackCopyToClipboard() {
+    const url = window.location.href;
+    
+    // Try modern clipboard API first
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(url)
+        .then(() => {
+          showShareFeedback('Link copied to clipboard!');
+        })
+        .catch(err => {
+          console.error('Failed to copy:', err);
+          // Last resort: use old method
+          legacyCopyToClipboard(url);
+        });
+    } else {
+      // Use legacy copy method
+      legacyCopyToClipboard(url);
+    }
+  }
+
+  // Legacy copy method for older browsers
+  function legacyCopyToClipboard(text) {
+    const textArea = document.createElement('textarea');
+    textArea.value = text;
+    textArea.style.position = 'fixed';
+    textArea.style.left = '-999999px';
+    document.body.appendChild(textArea);
+    textArea.focus();
+    textArea.select();
+    
+    try {
+      document.execCommand('copy');
+      showShareFeedback('Link copied to clipboard!');
+    } catch (err) {
+      console.error('Failed to copy:', err);
+      showShareFeedback('Unable to copy link');
+    }
+    
+    document.body.removeChild(textArea);
+  }
+
+  // Show feedback message
+  function showShareFeedback(message) {
+    const shareBtn = document.getElementById('share-btn');
+    if (!shareBtn) return;
+
+    const feedback = document.createElement('div');
+    feedback.className = 'share-feedback';
+    feedback.textContent = message;
+    shareBtn.parentElement.style.position = 'relative';
+    shareBtn.parentElement.appendChild(feedback);
+
+    setTimeout(() => {
+      feedback.classList.add('visible');
+    }, 10);
+
+    setTimeout(() => {
+      feedback.classList.remove('visible');
+      setTimeout(() => {
+        if (feedback.parentElement) {
+          feedback.parentElement.removeChild(feedback);
+        }
+      }, 300);
+    }, 2000);
+  }
+
   // Smooth scroll for in-page anchors (fallback for browsers not supporting CSS smooth-scroll)
   document.addEventListener('click', function(event) {
     const target = event.target;
@@ -157,17 +265,15 @@
         const img = section.querySelector('.parallax__img');
         if (!img) continue;
 
-        // Parallax translation: bottom of image at viewport bottom (page top) 
-        // to top of image at viewport top (page bottom)
+        // Parallax translation: image moves down slower than page scroll
         const documentHeight = document.documentElement.scrollHeight - window.innerHeight;
         const scrollProgress = Math.max(0, Math.min(1, viewportY / documentHeight));
         
-        // Calculate how much the image needs to move down
-        // At scrollProgress 0: bottom of image at viewport bottom (translateY = 0)
-        // At scrollProgress 1: top of image at viewport top (translateY = imageHeight - viewportHeight)
-        const imageHeight = img.offsetHeight;
-        const viewportHeight = window.innerHeight;
-        const maxTranslate = imageHeight - viewportHeight;
+        // Calculate parallax movement (standard parallax effect)
+        // At scrollProgress 0: image at 0px
+        // At scrollProgress 1: image moved down to 400px
+        // This creates depth by making background lag behind foreground
+        const maxTranslate = -400;
         const translateY = scrollProgress * maxTranslate;
         
         img.style.transform = `translate(-50%, ${translateY}px)`;

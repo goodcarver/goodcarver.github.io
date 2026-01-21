@@ -198,66 +198,11 @@ a:hover {
 .input { width: 100%; padding: 14px 16px; border-radius: 999px; border: 1px solid rgba(255,255,255,0.28); background: rgba(255,255,255,0.12); color: var(--text); }
 .input::placeholder { color: #8f8fa1; }
 
-.site-footer { border-top: none; background: transparent; }
+.site-footer { border-top: none; background: transparent; color: white; opacity: .5}
 .socials { display: flex; gap: 12px; }
 .socials a { color: var(--text); text-decoration: none; }
 .socials a:hover { color: var(--text); }
 
-/* Donation UI */
-.donation-section {
-  margin-top: 32px;
-  padding-top: 24px;
-  border-top: 1px solid rgba(72, 79, 83, 0.25);
-  text-align: center;
-}
-
-.donation-title {
-  font-size: 18px;
-  font-style: italic;
-  font-weight: 400;
-  color: var(--heading);
-  margin: 0 0 16px;
-}
-
-.donation-links {
-  display: flex;
-  gap: 16px;
-  justify-content: center;
-  flex-wrap: wrap;
-}
-
-.donation-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 12px 24px;
-  border-radius: 999px;
-  text-decoration: none;
-  color: var(--text);
-  background: var(--ghost);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  transition: transform 0.25s ease, background 0.25s ease;
-  font-size: 16px;
-}
-
-.donation-link:hover {
-  transform: translateY(-1px);
-  background: rgba(72, 79, 83, 0.12);
-}
-
-.donation-link i {
-  font-size: 18px;
-}
-
-.venmo-icon {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 18px;
-  height: 18px;
-  font-weight: 700;
-  font-size: 14px;
-}
 
 /* Parallax */
 .parallax {
@@ -291,14 +236,70 @@ a:hover {
   transform: translateY(0);
 }
 
+.release-info {
+  margin-top: 32px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.release-info.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.release-date {
+  font-family: Georgia, "Times New Roman", Times, serif;
+  font-size: clamp(18px, 2.5vw, 24px);
+  font-style: italic;
+  font-weight: 400;
+  color: var(--heading);
+  margin: 0;
+  letter-spacing: 0.3px;
+}
+
+.presave-btn {
+  font-family: Georgia, "Times New Roman", Times, serif;
+  font-size: 16px;
+  font-style: italic;
+}
+
+/* Share button feedback */
+.share-feedback {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  right: 0;
+  background: rgba(72, 79, 83, 0.95);
+  color: white;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 14px;
+  white-space: nowrap;
+  opacity: 0;
+  transform: translateY(4px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  pointer-events: none;
+  z-index: 100;
+}
+
+.share-feedback.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
 .parallax__img {
   position: fixed;
-  bottom: 0; /* Start with bottom at viewport bottom */
+  top: 0;
   left: 50%;
   transform: translateX(-50%);
   width: 100vw;
   height: calc(100vh + 400px); /* Extra height for parallax movement */
   object-fit: cover;
+  object-position: center top; /* Start showing from top of image */
   will-change: transform;
   z-index: -1;
   pointer-events: none;
