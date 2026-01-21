@@ -287,6 +287,56 @@
     window.addEventListener('resize', handleScroll);
     handleScroll();
   }
+
+  // Custom smooth scroll function with controllable duration
+  function smoothScrollTo(target, duration) {
+    const start = window.scrollY || window.pageYOffset;
+    const distance = target - start;
+    const startTime = performance.now();
+    
+    // Easing function (ease-out-cubic)
+    function easeOutCubic(t) {
+      return 1 - Math.pow(1 - t, 3);
+    }
+    
+    function scroll() {
+      const currentTime = performance.now();
+      const elapsed = currentTime - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      const eased = easeOutCubic(progress);
+      
+      window.scrollTo(0, start + (distance * eased));
+      
+      if (progress < 1) {
+        requestAnimationFrame(scroll);
+      }
+    }
+    
+    requestAnimationFrame(scroll);
+  }
+
+  // Auto-scroll on initial page load to trigger animations
+  if (!supportsReducedMotion && titleLines.length > 0) {
+    const initialScrollY = window.scrollY || window.pageYOffset;
+    
+    // Only auto-scroll if user is at or near the top of the page
+    if (initialScrollY < 50) {
+      setTimeout(() => {
+        // Check if user hasn't scrolled away during the wait
+        const currentScrollY = window.scrollY || window.pageYOffset;
+        if (currentScrollY < 50) {
+          // Calculate scroll distance to show all animations including release info
+          // Release info needs scrollProgress > 0.62 (delay 0.42 + fade 0.2)
+          // scrollProgress = viewportY / (window.innerHeight * 0.6)
+          // So: viewportY = 0.62 * window.innerHeight * 0.6 ≈ 0.37 * vh
+          const targetScroll = Math.floor(window.innerHeight * 0.4);
+          
+          // Use custom smooth scroll with 2400ms duration (4x slower than typical)
+          smoothScrollTo(targetScroll, 2400);
+        }
+      }, 1000); // Wait 1 second before auto-scrolling
+    }
+  }
 })();
 
 
