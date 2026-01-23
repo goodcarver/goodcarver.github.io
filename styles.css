@@ -268,6 +268,69 @@ a:hover {
   font-style: italic;
 }
 
+/* Discography Section */
+.discography-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 32px;
+  margin-top: 32px;
+}
+
+@media (min-width: 768px) {
+  .discography-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+  }
+}
+
+.album-card {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  transition: transform 0.25s ease;
+}
+
+.album-card:hover {
+  transform: translateY(-4px);
+}
+
+.album-card__artwork {
+  width: 100%;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+  margin-bottom: 16px;
+  transition: box-shadow 0.25s ease;
+}
+
+.album-card:hover .album-card__artwork {
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5);
+}
+
+.album-card__artwork img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.album-card__title {
+  font-family: Georgia, "Times New Roman", Times, serif;
+  font-size: clamp(20px, 2.5vw, 24px);
+  font-style: italic;
+  font-weight: 400;
+  color: var(--heading);
+  margin: 0 0 8px;
+  line-height: 1.3;
+}
+
+.album-card__date {
+  font-family: Georgia, "Times New Roman", Times, serif;
+  font-size: 14px;
+  color: var(--text);
+  margin: 0;
+  opacity: 0.8;
+}
+
 /* Share button feedback */
 .share-feedback {
   position: absolute;
@@ -277,6 +340,7 @@ a:hover {
   color: white;
   padding: 8px 16px;
   border-radius: 6px;
+  font-family: Georgia, "Times New Roman", Times, serif;
   font-size: 14px;
   white-space: nowrap;
   opacity: 0;
