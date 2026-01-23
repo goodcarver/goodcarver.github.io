@@ -1,0 +1,60 @@
+{
+  "title": "The Steps We Have to Take",
+  "artist": "Good Carver",
+  "artwork": "assets/the-steps-we-have-to-take/album-art-the-steps-we-have-to-take.jpg",
+  "audioPath": "assets/the-steps-we-have-to-take/",
+  "albumCredits": "",
+  "tracks": [
+    {
+      "title": "Calmer Waters",
+      "file": "01 Calmer Water v6 MP3-REFERENCE.mp3",
+      "credits": ""
+    },
+    {
+      "title": "Collecting Clouds",
+      "file": "02 Collecting Clouds v5 MP3-REFERENCE.mp3",
+      "credits": ""
+    },
+    {
+      "title": "Questions (from Leon Trostky Trout)",
+      "file": "03 Questions v5 MP3-REFERENCE.mp3",
+      "credits": ""
+    },
+    {
+      "title": "Take it Slow",
+      "file": "04 Take it Slow MP3-REFERENCE.mp3",
+      "credits": ""
+    },
+    {
+      "title": "Us Hunters",
+      "file": "05 Us Hunters v5 MP3-REFERENCE.mp3",
+      "credits": ""
+    },
+    {
+      "title": "Sinking In",
+      "file": "06 Sinking MP3-REFERENCE.mp3",
+      "credits": ""
+    },
+    {
+      "title": "Too Late",
+      "file": "07 Too Late v5 MP3-REFERENCE.mp3",
+      "credits": ""
+    },
+    {
+      "title": "Aimless Blues",
+      "file": "08 Aimless Blues v5 MP3-REFERENCE.mp3",
+      "credits": ""
+    },
+    {
+      "title": "The Steps We Have to Take",
+      "file": "09 The Steps We Have to Take MP3-REFERENCE.mp3",
+      "credits": ""
+    },
+    {
+      "title": "Time to Go",
+      "file": "10 Time to Go MP3-REFERENCE.mp3",
+      "credits": ""
+    }
+  ]
+}
+
