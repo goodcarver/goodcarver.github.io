@@ -1,0 +1,5 @@
+User-agent: *
+Disallow: /preview-thestepswehavetotake.html
+Disallow: /assets/album-winter-20-21/
+Disallow: /assets/album-the-steps-we-have-to-take/
+

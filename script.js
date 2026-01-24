@@ -142,8 +142,7 @@
   if (shareBtn) {
     shareBtn.addEventListener('click', async () => {
       const shareData = {
-        title: 'good carver',
-        text: 'Check out good carver - Fort Collins, CO new folk.',
+        title: document.title,
         url: window.location.href
       };
 
@@ -329,7 +328,7 @@
           // Release info needs scrollProgress > 0.62 (delay 0.42 + fade 0.2)
           // scrollProgress = viewportY / (window.innerHeight * 0.6)
           // So: viewportY = 0.62 * window.innerHeight * 0.6 ≈ 0.37 * vh
-          const targetScroll = Math.floor(window.innerHeight * 0.4);
+          const targetScroll = 270
           
           // Use custom smooth scroll with 2400ms duration (4x slower than typical)
           smoothScrollTo(targetScroll, 2400);
