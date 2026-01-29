@@ -10,6 +10,20 @@
   let progressBarListenersAttached = false;
   let isLoadingTrack = false;
   let loadingTimeout = null;
+  let isolatedTrackNumber = null;
+
+  // Get isolated track number from URL parameter
+  function getIsolatedTrackNumber() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const trackParam = urlParams.get('track');
+    if (!trackParam) return null;
+    
+    const trackNum = parseInt(trackParam, 10);
+    // Validate track number (must be positive integer)
+    if (isNaN(trackNum) || trackNum <= 0) return null;
+    
+    return trackNum;
+  }
 
   // Initialize audio player
   function initAudioPlayer(jsonPath) {
@@ -22,6 +36,9 @@
     // Show loading state
     playerContainer.innerHTML = '<div class="audio-player__loading">Loading album...</div>';
 
+    // Get isolated track number from URL if present
+    isolatedTrackNumber = getIsolatedTrackNumber();
+
     // Load album data
     fetch(jsonPath)
       .then(response => {
@@ -32,6 +49,13 @@
       })
       .then(data => {
         albumData = data;
+        
+        // Validate isolated track number against album length
+        if (isolatedTrackNumber && isolatedTrackNumber > albumData.tracks.length) {
+          console.warn(`Invalid track number ${isolatedTrackNumber}, exceeds album length. Ignoring.`);
+          isolatedTrackNumber = null;
+        }
+        
         renderPlayer();
         initializeAudio();
         setupMediaSession();
@@ -113,9 +137,18 @@
 
     trackListContainer.innerHTML = albumData.tracks.map((track, index) => {
       const isActive = index === currentTrackIndex;
-      const activeClass = isActive ? (isPlaying ? 'audio-player__track-item--playing' : 'audio-player__track-item--active') : '';
+      const isDisabled = isolatedTrackNumber && (index + 1) !== isolatedTrackNumber;
+      
+      let classList = 'audio-player__track-item';
+      if (isActive) {
+        classList += isPlaying ? ' audio-player__track-item--playing' : ' audio-player__track-item--active';
+      }
+      if (isDisabled) {
+        classList += ' audio-player__track-item--disabled';
+      }
+      
       return `
-        <div class="audio-player__track-item ${activeClass}" data-track-index="${index}">
+        <div class="${classList}" data-track-index="${index}" ${isDisabled ? 'data-disabled="true"' : ''}>
           <span class="audio-player__track-number">${index + 1}</span>
           <span class="audio-player__track-title">${track.title}</span>
           <span class="audio-player__track-duration" id="track-duration-${index}">-:--</span>
@@ -126,6 +159,11 @@
     // Attach click handlers to track items
     trackListContainer.querySelectorAll('.audio-player__track-item').forEach(item => {
       item.addEventListener('click', () => {
+        // Don't allow playing disabled tracks
+        if (item.dataset.disabled === 'true') {
+          return;
+        }
+        
         const trackIndex = parseInt(item.dataset.trackIndex);
         playTrack(trackIndex);
       });
@@ -195,10 +233,11 @@
       
       // Handle track end
       audio.addEventListener('ended', () => {
-        if (currentTrackIndex < albumData.tracks.length - 1) {
+        // Don't auto-advance if in isolated track mode
+        if (!isolatedTrackNumber && currentTrackIndex < albumData.tracks.length - 1) {
           playTrack(currentTrackIndex + 1);
         } else {
-          // Reached end of album
+          // Reached end of album or in isolated mode
           isPlaying = false;
           updatePlayPauseButton();
           stopProgressUpdate();
@@ -240,8 +279,9 @@
       });
     }
 
-    // Load first track
-    loadTrack(0);
+    // Load first track (or isolated track if specified)
+    const initialTrackIndex = isolatedTrackNumber ? isolatedTrackNumber - 1 : 0;
+    loadTrack(initialTrackIndex);
   }
 
   // Load a track
@@ -368,7 +408,7 @@
 
   // Play next track
   function playNext() {
-    if (!albumData) return;
+    if (!albumData || isolatedTrackNumber) return;
     
     if (currentTrackIndex < albumData.tracks.length - 1) {
       playTrack(currentTrackIndex + 1);
@@ -377,7 +417,7 @@
 
   // Play previous track
   function playPrevious() {
-    if (!albumData) return;
+    if (!albumData || isolatedTrackNumber) return;
     
     if (currentTrackIndex > 0) {
       playTrack(currentTrackIndex - 1);
@@ -492,11 +532,13 @@
     const nextBtn = document.getElementById('next-btn');
 
     if (prevBtn) {
-      prevBtn.disabled = currentTrackIndex === 0 && (!audio || audio.currentTime <= 3);
+      // Disable prev button if in isolated mode or at first track
+      prevBtn.disabled = isolatedTrackNumber || (currentTrackIndex === 0 && (!audio || audio.currentTime <= 3));
     }
 
     if (nextBtn && albumData) {
-      nextBtn.disabled = currentTrackIndex >= albumData.tracks.length - 1;
+      // Disable next button if in isolated mode or at last track
+      nextBtn.disabled = isolatedTrackNumber || (currentTrackIndex >= albumData.tracks.length - 1);
     }
   }
 
