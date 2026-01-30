@@ -124,14 +124,18 @@ a:hover {
 
 .shows-list { margin-top: 24px; }
 .show-item { 
-  display: flex; 
-  align-items: flex-start; 
-  gap: 16px; 
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
   padding: 16px 20px; 
-  background: transparent; 
-  border: 1px solid rgba(72,79,83,0.25); 
+  background: rgba(255, 255, 255, 0.2); 
   border-radius: 12px; 
   margin-bottom: 12px;
+}
+.show-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
 }
 .show-date-time { 
   min-width: 120px;
@@ -150,28 +154,20 @@ a:hover {
   color: var(--text);
   opacity: 0.8;
 }
-.show-main { 
-  flex: 1; 
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
 .show-venue { 
+  flex: 1;
   font-weight: 400;
   font-size: 16px;
 }
-.show-location { 
-  color: var(--text); 
-  font-size: 14px;
-}
 .show-details { 
-  margin-top: 4px; 
-  padding: 8px 12px; 
-  background: rgba(72,79,83,0.08); 
-  border-radius: 6px; 
-  font-size: 13px; 
+  padding: 8px 0;
+  font-size: 14px; 
   color: var(--text); 
   line-height: 1.4;
+}
+.show-location { 
+  font-size: 12px; 
+  color: var(--text);
 }
 .loading { 
   text-align: center; 

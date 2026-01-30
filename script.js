@@ -113,15 +113,15 @@
           
           return `
             <div class="show-item">
-              <div class="show-date-time">
-                <span class="show-date">${dateStr}</span>
-                <span class="show-time">${timeStr}</span>
-              </div>
-              <div class="show-main">
+              <div class="show-header">
+                <div class="show-date-time">
+                  <span class="show-date">${dateStr}</span>
+                  <span class="show-time">${timeStr}</span>
+                </div>
                 <span class="show-venue">${summary}</span>
-                <span class="show-location">${locationDisplay}</span>
-                ${description ? `<div class="show-details">${description}</div>` : ''}
               </div>
+              ${description ? `<div class="show-details">${description}</div>` : ''}
+              <div class="show-location">${locationDisplay}</div>
             </div>
           `;
         }).join('');
