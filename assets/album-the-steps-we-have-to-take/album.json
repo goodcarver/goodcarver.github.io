@@ -3,42 +3,42 @@
   "artist": "Good Carver",
   "artwork": "assets/album-the-steps-we-have-to-take/album-art-the-steps-we-have-to-take.jpg",
   "audioPath": "assets/album-the-steps-we-have-to-take/",
-  "albumCredits": "All songs written and produced by Eric Bjella. Recorded at Eric Bjella's studio in Fort Collins, CO, Wise Acre Recording in Nashville, TN (drums), Maxwell Trettor's studio in Fort Collins, CO (drums), Little House of Sound in Fort Collins, CO (bass). Mixed by Eric Smith at Little House of Sound. Mastered by Alan Douches at West West Side Music. Artwork by Eric Bjella. Cover photo taken at the top of Severance Mountain overlooking Schroon lake in upstate New York on 7/1/2023 when winds blew in heavy canadian wildfire smoke. © & ℗ 2026 Good Carver, all rights reserved.",
+  "albumCredits": "All songs written and produced by Eric Bjella. Recorded at Eric Bjella's studio in Fort Collins, CO, Wise Acre Recording in Nashville, TN (drums), Maxwell Tretter's studio in Fort Collins, CO (drums), Little House of Sound in Fort Collins, CO (bass). Mixed by Eric Smith at Little House of Sound. Mastered by Alan Douches at West West Side Music. Artwork by Eric Bjella. Cover photo taken at the top of Severance Mountain overlooking Schroon lake in upstate New York on 7/1/2023 when winds blew in heavy canadian wildfire smoke. © & ℗ 2026 Good Carver, all rights reserved.",
   "tracks": [
     {
       "title": "Calmer Waters",
       "file": "01 Calmer Water v6 MP3-REFERENCE.mp3",
-      "credits": "Vocals, guitar: Eric Bjella, cello, backing vocals: Lana Millard, drums: Alex Johnson, bass: Eric Smith"
+      "credits": "Vocals, guitar: Eric Bjella, cello, backing vocals: Lana Millard Waneka, drums: Alex Johnson, bass: Eric Smith"
     },
     {
       "title": "Collecting Clouds",
       "file": "02 Collecting Clouds v5 MP3-REFERENCE.mp3",
-      "credits": "Vocals, guitar, wurlitzer: Eric Bjella, cello, backing vocals: Lana Millard, additional backing vocals: Austin Kenneth Lee, drums: Alex Johnson, bass: Eric Smith"
+      "credits": "Vocals, guitar, wurlitzer: Eric Bjella, cello, backing vocals: Lana Millard Waneka, additional backing vocals: Austin Kenneth Lee, drums: Alex Johnson, bass: Eric Smith"
     },
     {
       "title": "Questions (from Leon Trostky Trout)",
       "file": "03 Questions v5 MP3-REFERENCE.mp3",
-      "credits": "Vocals, guitar: Eric Bjella, cello and backing vocals: Lana Millard, additional backing vocals: Nathaniel Riley, drums: Alex Johnson, bass: Eric Smith"
+      "credits": "Vocals, guitar: Eric Bjella, cello and backing vocals: Lana Millard Waneka, additional backing vocals: Nathaniel Riley, drums: Alex Johnson, bass: Eric Smith"
     },
     {
       "title": "Take it Slow",
       "file": "04 Take it Slow MP3-REFERENCE.mp3",
-      "credits": "Vocals, guitar: Eric Bjella, cello, backing vocals: Lana Millard, drums: Maxwell Tretter"
+      "credits": "Vocals, guitar: Eric Bjella, cello, backing vocals: Lana Millard Waneka, drums: Maxwell Tretter"
     },
     {
       "title": "Us Hunters",
       "file": "05 Us Hunters v5 MP3-REFERENCE.mp3",
-      "credits": "Vocals, guitar, bass, piano: Eric Bjella, cello, backing vocals: Lana Millard, drums: Alex Johnson"
+      "credits": "Vocals, guitar, bass, piano: Eric Bjella, cello, backing vocals: Lana Millard Waneka, drums: Alex Johnson"
     },
     {
       "title": "Sinking In",
       "file": "06 Sinking MP3-REFERENCE.mp3",
-      "credits": "Vocals, guitar, bass: Eric Bjella, cello, backing vocals: Lana Millard, drums: Alex Johnson"
+      "credits": "Vocals, guitar, bass: Eric Bjella, cello, backing vocals: Lana Millard Waneka, drums: Alex Johnson"
     },
     {
       "title": "Too Late",
       "file": "07 Too Late v5 MP3-REFERENCE.mp3",
-      "credits": "Vocals, guitar: Eric Bjella, cello, backing vocals: Lana Millard, additional backing vocals: Ian Foster, drums: Alex Johnson, bass: Eric Smith"
+      "credits": "Vocals, guitar: Eric Bjella, cello, backing vocals: Lana Millard Waneka, additional backing vocals: Ian Foster, drums: Alex Johnson, bass: Eric Smith"
     },
     {
       "title": "Aimless Blues",
@@ -53,7 +53,7 @@
     {
       "title": "Time to Go",
       "file": "10 Time to Go MP3-REFERENCE.mp3",
-      "credits": "Vocals, guitar: Eric Bjella, cello, backing vocals: Lana Millard, drums: Alex Johnson, bass: Eric Smith"
+      "credits": "Vocals, guitar: Eric Bjella, cello, backing vocals: Lana Millard Waneka, drums: Alex Johnson, bass: Eric Smith"
     }
   ]
 }
