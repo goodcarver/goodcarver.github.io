@@ -255,7 +255,7 @@
 
 .audio-player__track-item--active .audio-player__track-title,
 .audio-player__track-item--playing .audio-player__track-title {
-  color: var(--heading);
+  color: var(--text);
   font-weight: 500;
 }
 
