@@ -336,6 +336,52 @@
       }, 1000); // Wait 1 second before auto-scrolling
     }
   }
+
+  // Initialize videos with date-based release
+  function initializeVideos() {
+    const videosGrid = document.getElementById('videos-grid');
+    if (!videosGrid) return;
+
+    const videoItems = videosGrid.querySelectorAll('.video-item');
+    const today = new Date();
+    today.setHours(0, 0, 0, 0); // Normalize to start of day
+
+    let visibleCount = 0;
+
+    videoItems.forEach(item => {
+      const releaseDateStr = item.getAttribute('data-release-date');
+      if (!releaseDateStr) {
+        // No date = always show
+        item.style.display = '';
+        visibleCount++;
+        return;
+      }
+
+      const releaseDate = new Date(releaseDateStr);
+      releaseDate.setHours(0, 0, 0, 0);
+      if (releaseDate <= today) {
+        // Video is released - show it
+        item.style.display = '';
+        visibleCount++;
+      } else {
+        // Video not yet released - keep hidden
+        item.style.display = 'none';
+      }
+    });
+
+    // Update grid columns based on visible count
+    updateVideoGridColumns(videosGrid, visibleCount);
+  }
+
+  function updateVideoGridColumns(grid, visibleCount) {
+    // Set CSS custom property for column count
+    // Max 4 columns, min 1 column
+    const columns = Math.min(visibleCount, visibleCount%2 === 0 ? 2 : 3);
+    grid.style.setProperty('--video-columns', columns);
+  }
+
+  // Initialize videos when page loads
+  initializeVideos();
 })();
 
 
