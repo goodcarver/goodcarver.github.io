@@ -10,19 +10,30 @@
   let progressBarListenersAttached = false;
   let isLoadingTrack = false;
   let loadingTimeout = null;
-  let isolatedTrackNumber = null;
+  let isolatedTrackNumbers = null; // Set of allowed track numbers (1-based)
 
-  // Get isolated track number from URL parameter
-  function getIsolatedTrackNumber() {
+  // Get isolated track numbers from URL parameter
+  function getIsolatedTrackNumbers() {
     const urlParams = new URLSearchParams(window.location.search);
-    const trackParam = urlParams.get('track');
-    if (!trackParam) return null;
+    const trackParams = urlParams.getAll('track'); // Gets all 'track' params
     
-    const trackNum = parseInt(trackParam, 10);
-    // Validate track number (must be positive integer)
-    if (isNaN(trackNum) || trackNum <= 0) return null;
+    if (trackParams.length === 0) return null;
     
-    return trackNum;
+    const trackNumbers = new Set();
+    
+    // Handle both comma-separated and multiple params
+    trackParams.forEach(param => {
+      // Split by comma in case of comma-separated values
+      const values = param.split(',').map(v => v.trim());
+      values.forEach(value => {
+        const trackNum = parseInt(value, 10);
+        if (!isNaN(trackNum) && trackNum > 0) {
+          trackNumbers.add(trackNum);
+        }
+      });
+    });
+    
+    return trackNumbers.size > 0 ? trackNumbers : null;
   }
 
   // Initialize audio player
@@ -36,8 +47,8 @@
     // Show loading state
     playerContainer.innerHTML = '<div class="audio-player__loading">Loading album...</div>';
 
-    // Get isolated track number from URL if present
-    isolatedTrackNumber = getIsolatedTrackNumber();
+    // Get isolated track numbers from URL if present
+    isolatedTrackNumbers = getIsolatedTrackNumbers();
 
     // Load album data
     fetch(jsonPath)
@@ -50,10 +61,18 @@
       .then(data => {
         albumData = data;
         
-        // Validate isolated track number against album length
-        if (isolatedTrackNumber && isolatedTrackNumber > albumData.tracks.length) {
-          console.warn(`Invalid track number ${isolatedTrackNumber}, exceeds album length. Ignoring.`);
-          isolatedTrackNumber = null;
+        // Validate isolated track numbers against album length
+        if (isolatedTrackNumbers) {
+          // Filter out invalid track numbers
+          const validTracks = new Set();
+          isolatedTrackNumbers.forEach(trackNum => {
+            if (trackNum <= albumData.tracks.length) {
+              validTracks.add(trackNum);
+            } else {
+              console.warn(`Invalid track number ${trackNum}, exceeds album length. Ignoring.`);
+            }
+          });
+          isolatedTrackNumbers = validTracks.size > 0 ? validTracks : null;
         }
         
         renderPlayer();
@@ -137,7 +156,7 @@
 
     trackListContainer.innerHTML = albumData.tracks.map((track, index) => {
       const isActive = index === currentTrackIndex;
-      const isDisabled = isolatedTrackNumber && (index + 1) !== isolatedTrackNumber;
+      const isDisabled = isolatedTrackNumbers && !isolatedTrackNumbers.has(index + 1);
       
       let classList = 'audio-player__track-item';
       if (isActive) {
@@ -233,11 +252,22 @@
       
       // Handle track end
       audio.addEventListener('ended', () => {
-        // Don't auto-advance if in isolated track mode
-        if (!isolatedTrackNumber && currentTrackIndex < albumData.tracks.length - 1) {
+        if (isolatedTrackNumbers) {
+          // Find next allowed track
+          for (let i = currentTrackIndex + 1; i < albumData.tracks.length; i++) {
+            if (isolatedTrackNumbers.has(i + 1)) {
+              playTrack(i);
+              return;
+            }
+          }
+          // No next track - stop
+          isPlaying = false;
+          updatePlayPauseButton();
+          stopProgressUpdate();
+        } else if (currentTrackIndex < albumData.tracks.length - 1) {
           playTrack(currentTrackIndex + 1);
         } else {
-          // Reached end of album or in isolated mode
+          // Reached end of album
           isPlaying = false;
           updatePlayPauseButton();
           stopProgressUpdate();
@@ -279,8 +309,13 @@
       });
     }
 
-    // Load first track (or isolated track if specified)
-    const initialTrackIndex = isolatedTrackNumber ? isolatedTrackNumber - 1 : 0;
+    // Load first track (or first isolated track if specified)
+    let initialTrackIndex = 0;
+    if (isolatedTrackNumbers) {
+      // Load first allowed track
+      const firstAllowed = Math.min(...Array.from(isolatedTrackNumbers)) - 1;
+      initialTrackIndex = firstAllowed;
+    }
     loadTrack(initialTrackIndex);
   }
 
@@ -408,8 +443,21 @@
 
   // Play next track
   function playNext() {
-    if (!albumData || isolatedTrackNumber) return;
+    if (!albumData) return;
     
+    if (isolatedTrackNumbers) {
+      // Find next allowed track
+      for (let i = currentTrackIndex + 1; i < albumData.tracks.length; i++) {
+        if (isolatedTrackNumbers.has(i + 1)) {
+          playTrack(i);
+          return;
+        }
+      }
+      // No next allowed track
+      return;
+    }
+    
+    // Normal behavior
     if (currentTrackIndex < albumData.tracks.length - 1) {
       playTrack(currentTrackIndex + 1);
     }
@@ -417,8 +465,24 @@
 
   // Play previous track
   function playPrevious() {
-    if (!albumData || isolatedTrackNumber) return;
+    if (!albumData) return;
     
+    if (isolatedTrackNumbers) {
+      // Find previous allowed track
+      for (let i = currentTrackIndex - 1; i >= 0; i--) {
+        if (isolatedTrackNumbers.has(i + 1)) {
+          playTrack(i);
+          return;
+        }
+      }
+      // No previous allowed track - restart current if > 3 seconds
+      if (audio && audio.currentTime > 3) {
+        audio.currentTime = 0;
+      }
+      return;
+    }
+    
+    // Normal behavior
     if (currentTrackIndex > 0) {
       playTrack(currentTrackIndex - 1);
     } else if (audio && audio.currentTime > 3) {
@@ -531,14 +595,22 @@
     const prevBtn = document.getElementById('prev-btn');
     const nextBtn = document.getElementById('next-btn');
 
-    if (prevBtn) {
-      // Disable prev button if in isolated mode or at first track
-      prevBtn.disabled = isolatedTrackNumber || (currentTrackIndex === 0 && (!audio || audio.currentTime <= 3));
+    if (prevBtn && albumData) {
+      // Check if there's a previous allowed track
+      const hasPreviousAllowed = isolatedTrackNumbers 
+        ? Array.from(isolatedTrackNumbers).some(num => num - 1 < currentTrackIndex)
+        : currentTrackIndex > 0;
+      
+      prevBtn.disabled = !hasPreviousAllowed && (!audio || audio.currentTime <= 3);
     }
 
     if (nextBtn && albumData) {
-      // Disable next button if in isolated mode or at last track
-      nextBtn.disabled = isolatedTrackNumber || (currentTrackIndex >= albumData.tracks.length - 1);
+      // Check if there's a next allowed track
+      const hasNextAllowed = isolatedTrackNumbers
+        ? Array.from(isolatedTrackNumbers).some(num => num - 1 > currentTrackIndex)
+        : currentTrackIndex < albumData.tracks.length - 1;
+      
+      nextBtn.disabled = !hasNextAllowed;
     }
   }
 
