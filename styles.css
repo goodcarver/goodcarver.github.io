@@ -284,6 +284,14 @@ a:hover {
   font-style: italic;
 }
 
+.release-buttons {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  flex-wrap: wrap;
+  opacity: .5;
+}
+
 /* Discography Section */
 .discography-header {
   display: flex;
