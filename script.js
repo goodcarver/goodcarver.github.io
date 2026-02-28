@@ -344,7 +344,6 @@
 
     const videoItems = videosGrid.querySelectorAll('.video-item');
     const today = new Date();
-    today.setHours(0, 0, 0, 0); // Normalize to start of day
 
     let visibleCount = 0;
 
@@ -358,7 +357,7 @@
       }
 
       const releaseDate = new Date(releaseDateStr);
-      releaseDate.setHours(0, 0, 0, 0);
+      releaseDate.setHours(22, 0, 0, 0);
       if (releaseDate <= today) {
         // Video is released - show it
         item.style.display = '';
