@@ -24,7 +24,6 @@
           const lineDelay = index * 0.08; // Stagger each line by 0.08
           const lineProgress = Math.max(0, Math.min(1, (scrollProgress - lineDelay) / 0.2));
           
-          console.log(`${lineProgress}`)
           if (lineProgress > 0) {
             line.classList.add('visible');
           } else {
@@ -54,6 +53,27 @@
       // If reduced motion is preferred, show all lines immediately
       titleLines.forEach(line => line.classList.add('visible'));
       if (releaseInfo) releaseInfo.classList.add('visible');
+    }
+  }
+
+  // Press quotes — fade in as each block enters the viewport
+  const pressQuotes = Array.from(document.querySelectorAll('.press-quote'));
+  if (pressQuotes.length > 0) {
+    if (supportsReducedMotion) {
+      pressQuotes.forEach((el) => el.classList.add('is-visible'));
+    } else {
+      const pressObserver = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('is-visible');
+              pressObserver.unobserve(entry.target);
+            }
+          });
+        },
+        { root: null, rootMargin: '0px 0px -12% 0px', threshold: 0.12 }
+      );
+      pressQuotes.forEach((el) => pressObserver.observe(el));
     }
   }
 
