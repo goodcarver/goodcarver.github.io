@@ -155,7 +155,7 @@
   }
   
   // Load shows when page loads
-  loadShows();
+  //loadShows();
 
   // Share button functionality
   const shareBtn = document.getElementById('share-btn');
